@@ -1,4 +1,6 @@
+import pygame
 from src.midline import MidLine
+from src.ball import Ball
 from src.paddle import Paddle
 
 class PlayState:
@@ -9,15 +11,20 @@ class PlayState:
         self.paddleRight = Paddle(offsetX, posY, "#cf0c0c")
         self.paddleLeft = Paddle(swidth-offsetX, posY, "#0c46cf", 1)
         self.midLine = MidLine(swidth, sheight)
+        self.ball = Ball(swidth, sheight)
+
+        self.allSprites = pygame.sprite.Group()
 
     def update (self, events, dt, keys, currState):
         self.paddleRight.move(self.swidth, self.sheight)
         self.paddleLeft.move(self.swidth, self.sheight)
+        self.ball.move()
 
     def draw (self, screen):
         self.midLine.draw(screen)
         self.paddleRight.draw(screen)
         self.paddleLeft.draw(screen)
+        self.ball.draw(screen)
 
     def resetGame (self):
         pass

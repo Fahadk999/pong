@@ -2,6 +2,7 @@ import pygame
 
 class Paddle(pygame.sprite.Sprite):
     def __init__ (self, x, y, color, id=0):
+        super().__init__()
         self.id = id
         self.speed = 5
         self.color = pygame.Color(color)
