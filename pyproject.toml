@@ -1,0 +1,19 @@
+[project]
+name = "pong"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Fahadk999", email = "fahadkxyz18@gmail.com" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "pygame-ce>=2.5.8",
+]
+
+[project.scripts]
+pong = "pong:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
