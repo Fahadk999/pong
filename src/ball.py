@@ -1,31 +1,28 @@
 import pygame
-import random
 import math
+from random import uniform
 
 class Ball (pygame.sprite.Sprite):
     def __init__ (self, swidth, sheight):
         super().__init__()
         self.color = pygame.Color("white")
         self.radius = 10
-        self.speed = 1
+        self.speed = 15
+        self.swidth = swidth
+        self.sheight = sheight
         
-        # 1. Store the true center position as floating-point decimals
-        self.float_x = swidth / 2
-        self.float_y = sheight / 2
+        self.floatX = swidth/2
+        self.floatY = sheight/2
         
         diameter = self.radius * 2
         self.image = pygame.Surface((diameter, diameter), pygame.SRCALPHA)
-        self.rect = self.image.get_rect(center=(int(self.float_x), int(self.float_y)))
+        self.rect = self.image.get_rect(center=(int(self.floatX), int(self.floatY)))
         
         self.drawSurface()
-        tx = swidth
-        ty = 0
-        dx = tx - self.rect.centerx
-        dy = ty - self.rect.centery
-        dist = math.hypot(dx, dy)
+        angle = uniform(0, 2*math.pi)
         
-        self.moveX = ((dx/dist)*self.speed)
-        self.moveY = ((dy/dist)*self.speed)
+        self.moveX = (math.cos(angle)*self.speed)
+        self.moveY = (math.sin(angle)*self.speed)
 
     def drawSurface (self):
         self.image.fill((0, 0, 0, 0)) 
@@ -35,10 +32,22 @@ class Ball (pygame.sprite.Sprite):
         surface.blit(self.image, self.rect)
     
     def move (self):
-        # 2. Add the decimals to your floating-point trackers
-        self.float_x += self.moveX
-        self.float_y += self.moveY
+        self.floatX += self.moveX
+        self.floatY += self.moveY
         
-        # 3. Update the rect position with the tracked coordinates
-        self.rect.centerx = int(self.float_x)
-        self.rect.centery = int(self.float_y)
+        self.rect.centerx = int(self.floatX)
+        self.rect.centery = int(self.floatY)
+
+        if self.rect.left <= 0:
+            self.moveX = abs(self.moveX)
+            self.floatX = self.radius
+        elif self.rect.left >= self.swidth:
+            self.moveX = -abs(self.moveX)
+            self.floatX = self.swidth-self.radius
+        if self.rect.top <= 0:
+            self.moveY = abs(self.moveY)
+            self.floatY = self.radius
+        if self.rect.bottom >= self.sheight:
+            self.moveY = -abs(self.moveY)
+            self.floatY = self.sheight-self.radius
+

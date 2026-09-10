@@ -1,10 +1,12 @@
 import pygame
+from random import uniform
+import math
 
 class Paddle(pygame.sprite.Sprite):
     def __init__ (self, x, y, color, id=0):
         super().__init__()
         self.id = id
-        self.speed = 5
+        self.speed = 15
         self.color = pygame.Color(color)
         self.x, self.y = x, y
         self.width, self.height = 30, 100
@@ -12,7 +14,7 @@ class Paddle(pygame.sprite.Sprite):
         self.image.fill(self.color)
         self.rect = self.image.get_rect(center=(x, y))
         
-    def move (self, swidth, sheight):
+    def move (self, sheight, other):
         keys = pygame.key.get_pressed()
 
         dy = 0
@@ -29,8 +31,34 @@ class Paddle(pygame.sprite.Sprite):
 
         self.rect.y += dy
         self.rect.top = max(0, self.rect.top)
-        self.rect.bottom = min(sheight-self.rect.height, self.rect.bottom)
+        self.rect.bottom = min(sheight, self.rect.bottom)
+        self.collide(other)
 
     def draw (self, screen):
         screen.blit(self.image, self.rect)
+
+    def collide (self, other):
+        if self.rect.colliderect(other.rect):
+            hitX = other.rect.x
+            hitY = other.rect.y
+
+            if self.id == 0:
+                maxA, minA = 45, -45
+                randAngle = uniform(math.radians(minA), math.radians(maxA))
+                other.moveX = (math.cos(randAngle)*other.speed)
+                other.moveY = (math.sin(randAngle)*other.speed)
+                other.floatX = hitX+other.radius
+                other.floatX = self.rect.right+other.radius
+
+            if self.id == 1:
+                maxA, minA = 135, 315
+                randAngle = uniform(math.radians(minA), math.radians(maxA))
+                other.moveX = (math.cos(randAngle)*other.speed)
+                other.moveY = (math.sin(randAngle)*other.speed)
+                other.floatX = self.rect.left-other.radius
+
+            other.rect.centerx = int(other.floatX)
+
+
+                
 

@@ -16,8 +16,8 @@ class PlayState:
         self.allSprites = pygame.sprite.Group()
 
     def update (self, events, dt, keys, currState):
-        self.paddleRight.move(self.swidth, self.sheight)
-        self.paddleLeft.move(self.swidth, self.sheight)
+        self.paddleRight.move(self.sheight, self.ball)
+        self.paddleLeft.move(self.sheight, self.ball)
         self.ball.move()
 
     def draw (self, screen):
