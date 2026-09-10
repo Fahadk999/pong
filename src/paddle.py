@@ -14,6 +14,8 @@ class Paddle(pygame.sprite.Sprite):
         self.image.fill(self.color)
         self.rect = self.image.get_rect(center=(x, y))
         self.maxDeflection = 45
+        self.hits = 0
+        self.hitLimit = 4
         
     def move (self, sheight, other):
         keys = pygame.key.get_pressed()
@@ -40,6 +42,7 @@ class Paddle(pygame.sprite.Sprite):
 
     def collide (self, other):
         if self.rect.colliderect(other.rect):
+            self.hits += 1
             hitX = other.rect.x
             hitY = other.rect.y
             padLenHalf = self.height//2
@@ -60,7 +63,6 @@ class Paddle(pygame.sprite.Sprite):
                 other.floatX = self.rect.left-other.radius
 
             other.rect.centerx = int(other.floatX)
-
-
-                
-
+            if self.hits >= self.hitLimit:
+                other.speed += 1
+                self.hits = 0
