@@ -2,16 +2,18 @@ import pygame
 from src.midline import MidLine
 from src.ball import Ball
 from src.paddle import Paddle
+from src.boundry import Boundry
 
 class PlayState:
     def __init__ (self, swidth, sheight):
         self.swidth, self.sheight = swidth, sheight
-        offsetX = swidth//50
+        offsetX = swidth//45
         posY = sheight//2
         self.paddleRight = Paddle(offsetX, posY, "#cf0c0c")
         self.paddleLeft = Paddle(swidth-offsetX, posY, "#0c46cf", 1)
         self.midLine = MidLine(swidth, sheight)
         self.ball = Ball(swidth, sheight)
+        self.boundry = Boundry(swidth, sheight)
 
         self.allSprites = pygame.sprite.Group()
 
@@ -22,6 +24,7 @@ class PlayState:
 
     def draw (self, screen):
         self.midLine.draw(screen)
+        self.boundry.draw(screen)
         self.paddleRight.draw(screen)
         self.paddleLeft.draw(screen)
         self.ball.draw(screen)
