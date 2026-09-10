@@ -16,7 +16,7 @@ class Paddle(pygame.sprite.Sprite):
         self.maxDeflection = 45
         self.hits = 0
         self.hitLimit = 4
-        
+
     def move (self, sheight, other):
         keys = pygame.key.get_pressed()
 

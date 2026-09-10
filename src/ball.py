@@ -24,6 +24,12 @@ class Ball (pygame.sprite.Sprite):
         self.moveX = (math.cos(angle)*self.speed)
         self.moveY = (math.sin(angle)*self.speed)
 
+    def resetBall (self):
+        self.speed = 12 
+        self.floatX = self.swidth/2
+        self.floatY = self.sheight/2
+        self.rect = self.image.get_rect(center=(int(self.floatX), int(self.floatY)))
+
     def drawSurface (self):
         self.image.fill((0, 0, 0, 0)) 
         pygame.draw.circle(self.image, self.color, (self.radius, self.radius), self.radius)
@@ -50,4 +56,3 @@ class Ball (pygame.sprite.Sprite):
         if self.rect.bottom >= self.sheight:
             self.moveY = -abs(self.moveY)
             self.floatY = self.sheight-self.radius
-

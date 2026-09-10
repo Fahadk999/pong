@@ -25,27 +25,44 @@ class PlayState:
         self.scoreLTxt.rect.topleft = (7,0)
         self.scoreRTxt.rect.topright = (swidth-7, 0)
 
-        # self.allSprites = pygame.sprite.Group()
+        self.allSprites = pygame.sprite.Group(
+            self.paddleRight,
+            self.paddleLeft,
+            self.ball
+        )
 
     def update (self, events, dt, keys, currState):
         self.paddleRight.move(self.sheight, self.ball)
         self.paddleLeft.move(self.sheight, self.ball)
         self.ball.move()
-        
-        self.scoreLTxt.updateText(f"{self.scoreLeft}")
-        self.scoreRTxt.updateText(f"{self.scoreRight}")
-        self.scoreLTxt.rect.topleft = (7,0)
-        self.scoreRTxt.rect.topright = (self.swidth-7, 0)
+        if self.checkGoal():
+            self.resetGame()
         
     def draw (self, screen):
         self.midLine.draw(screen)
         self.boundry.draw(screen)
-        self.paddleRight.draw(screen)
-        self.paddleLeft.draw(screen)
-        self.ball.draw(screen)
+        self.allSprites.draw(screen)
 
         self.scoreLTxt.draw(screen)
         self.scoreRTxt.draw(screen)
 
     def resetGame (self):
-        pass
+        self.ball.resetBall()
+        self.paddleRight.hits = 0
+        self.paddleLeft.hits = 0
+
+    def checkGoal (self) -> bool:
+        ballX = self.ball.rect.x
+        if ballX <= 0:
+            self.scoreRight += 1
+            self.scoreRTxt.updateText(f"{self.scoreRight}")
+            self.scoreRTxt.rect.topright = (self.swidth-7, 0)
+            return True
+        elif ballX >= self.swidth:
+            self.scoreLeft += 1
+            self.scoreLTxt.updateText(f"{self.scoreLeft}")
+            self.scoreLTxt.rect.topleft = (7,0)
+            return True
+        return False
+            
+
