@@ -13,6 +13,7 @@ class Paddle(pygame.sprite.Sprite):
         self.image = pygame.Surface((self.width, self.height))
         self.image.fill(self.color)
         self.rect = self.image.get_rect(center=(x, y))
+        self.maxDeflection = 45
         
     def move (self, sheight, other):
         keys = pygame.key.get_pressed()
@@ -41,20 +42,21 @@ class Paddle(pygame.sprite.Sprite):
         if self.rect.colliderect(other.rect):
             hitX = other.rect.x
             hitY = other.rect.y
+            padLenHalf = self.height//2
+            collideDist = max(-padLenHalf, min(other.rect.centery-self.rect.centery, padLenHalf))
+            percentage = collideDist/padLenHalf
 
             if self.id == 0:
-                maxA, minA = 45, -45
-                randAngle = uniform(math.radians(minA), math.radians(maxA))
-                other.moveX = (math.cos(randAngle)*other.speed)
-                other.moveY = (math.sin(randAngle)*other.speed)
+                angle = math.radians(self.maxDeflection*percentage) 
+                other.moveX = (math.cos(angle)*other.speed)
+                other.moveY = (math.sin(angle)*other.speed)
                 other.floatX = hitX+other.radius
                 other.floatX = self.rect.right+other.radius
 
             if self.id == 1:
-                maxA, minA = 135, 315
-                randAngle = uniform(math.radians(minA), math.radians(maxA))
-                other.moveX = (math.cos(randAngle)*other.speed)
-                other.moveY = (math.sin(randAngle)*other.speed)
+                angle = math.radians(180-(self.maxDeflection*percentage))
+                other.moveX = (math.cos(angle)*other.speed)
+                other.moveY = (math.sin(angle)*other.speed)
                 other.floatX = self.rect.left-other.radius
 
             other.rect.centerx = int(other.floatX)

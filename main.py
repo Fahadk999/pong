@@ -13,7 +13,7 @@ playstate = PlayState(swidth, sheight)
 
 running = True
 while running:
-    dt = clock.tick(60)
+    dt = clock.tick(60)/1000
     events = pygame.event.get()
 
     for event in events:

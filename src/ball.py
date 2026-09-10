@@ -7,7 +7,7 @@ class Ball (pygame.sprite.Sprite):
         super().__init__()
         self.color = pygame.Color("white")
         self.radius = 10
-        self.speed = 15
+        self.speed = 12
         self.swidth = swidth
         self.sheight = sheight
         
