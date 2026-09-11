@@ -19,7 +19,6 @@ class Paddle(pygame.sprite.Sprite):
 
     def move (self, sheight, other):
         keys = pygame.key.get_pressed()
-
         dy = 0
         if self.id == 0:
             if keys[pygame.K_w]:
