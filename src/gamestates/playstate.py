@@ -11,9 +11,9 @@ class PlayState:
         font = "assets/fonts/customfont.otf"
 
         offsetX = swidth//45
-        posY = sheight//2
-        self.paddleRight = Paddle(offsetX, posY, "#cf0c0c")
-        self.paddleLeft = Paddle(swidth-offsetX, posY, "#0c46cf", 1)
+        self.posY = sheight//2
+        self.paddleRight = Paddle(offsetX, self.posY, "#cf0c0c")
+        self.paddleLeft = Paddle(swidth-offsetX, self.posY, "#0c46cf", 1)
         self.midLine = MidLine(swidth, sheight)
         self.ball = Ball(swidth, sheight)
         self.boundry = Boundry(swidth, sheight)
@@ -27,7 +27,7 @@ class PlayState:
 
         self.countdownBool = True
         self.countdown = 4
-        self.countdownTxt = Text(f"{self.countdown}", swidth//2, posY-self.ball.rect.height*2, font)
+        self.countdownTxt = Text(f"{self.countdown}", swidth//2, self.posY-self.ball.rect.height*2, font)
 
         self.allSprites = pygame.sprite.Group(
             self.paddleRight,
@@ -67,6 +67,8 @@ class PlayState:
         self.ball.resetBall()
         self.paddleRight.hits = 0
         self.paddleLeft.hits = 0
+        self.paddleRight.rect.center = (self.paddleRight.rect.centerx, self.posY)
+        self.paddleLeft.rect.center = (self.paddleLeft.rect.centerx, self.posY)
 
     def checkGoal (self) -> bool:
         ballX = self.ball.rect.x
@@ -74,15 +76,12 @@ class PlayState:
             self.scoreRight += 1
             self.scoreRTxt.updateText(f"{self.scoreRight}")
             self.scoreRTxt.rect.topright = (self.swidth-7, 0)
+            self.ball.direction = 1
             return True
         elif ballX >= self.swidth:
             self.scoreLeft += 1
             self.scoreLTxt.updateText(f"{self.scoreLeft}")
             self.scoreLTxt.rect.topleft = (7,0)
+            self.ball.direction = 0
             return True
         return False
-
-    def startCountdown (self):
-
-        pass
-
