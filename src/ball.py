@@ -1,6 +1,6 @@
 import pygame
 import math
-from random import uniform
+from random import uniform, randint
 
 class Ball (pygame.sprite.Sprite):
     def __init__ (self, swidth, sheight):
@@ -19,7 +19,11 @@ class Ball (pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(int(self.floatX), int(self.floatY)))
         
         self.drawSurface()
-        angle = uniform(0, 2*math.pi)
+        self.direction = randint(0, 1)
+        if self.direction == 0:
+            angle = uniform(-(math.pi/4), math.pi/4)
+        else:
+            angle = uniform(math.radians(135), math.radians(225))
         
         self.moveX = (math.cos(angle)*self.speed)
         self.moveY = (math.sin(angle)*self.speed)
@@ -56,3 +60,6 @@ class Ball (pygame.sprite.Sprite):
         if self.rect.bottom >= self.sheight:
             self.moveY = -abs(self.moveY)
             self.floatY = self.sheight-self.radius
+
+    def changeAngle (self, newAngle):
+        self.angle = newAngle

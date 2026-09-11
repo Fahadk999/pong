@@ -25,18 +25,33 @@ class PlayState:
         self.scoreLTxt.rect.topleft = (7,0)
         self.scoreRTxt.rect.topright = (swidth-7, 0)
 
+        self.countdownBool = True
+        self.countdown = 4
+        self.countdownTxt = Text(f"{self.countdown}", swidth//2, posY-self.ball.rect.height*2, font)
+
         self.allSprites = pygame.sprite.Group(
             self.paddleRight,
             self.paddleLeft,
             self.ball
         )
 
+        self.countdownTime = 0
+
     def update (self, events, dt, keys, currState):
-        self.paddleRight.move(self.sheight, self.ball)
-        self.paddleLeft.move(self.sheight, self.ball)
-        self.ball.move()
-        if self.checkGoal():
-            self.resetGame()
+        if self.countdownBool:
+            self.countdown -= dt
+            self.countdownTxt.updateTxt(f"{int(self.countdown)}")
+            if self.countdown <= self.countdownTime:
+                self.countdown = 4
+                self.countdownBool = False
+
+        if not self.countdownBool:
+            self.paddleRight.move(self.sheight, self.ball)
+            self.paddleLeft.move(self.sheight, self.ball)
+            self.ball.move()
+            self.countdownBool = self.checkGoal()
+            if self.countdownBool:
+                self.resetGame()
         
     def draw (self, screen):
         self.midLine.draw(screen)
@@ -45,6 +60,8 @@ class PlayState:
 
         self.scoreLTxt.draw(screen)
         self.scoreRTxt.draw(screen)
+        if self.countdownBool:
+            self.countdownTxt.draw(screen)
 
     def resetGame (self):
         self.ball.resetBall()
@@ -64,5 +81,8 @@ class PlayState:
             self.scoreLTxt.rect.topleft = (7,0)
             return True
         return False
-            
+
+    def startCountdown (self):
+
+        pass
 
