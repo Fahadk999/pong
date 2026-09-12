@@ -33,7 +33,7 @@ while running:
     screen.fill(pygame.Color("#121314"))
 
     if currState == MENU:
-        menustate.update(dt)
+        currState = menustate.update(dt, events, currState)
         menustate.draw(screen)
     elif currState == PLAY:
         playstate.update(events, dt, keys, currState)
