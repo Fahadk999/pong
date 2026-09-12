@@ -29,12 +29,6 @@ class PlayState:
         self.countdown = 4
         self.countdownTxt = Text(f"{self.countdown}", swidth//2, self.posY-self.ball.rect.height*2, font)
 
-        self.allSprites = pygame.sprite.Group(
-            self.paddleRight,
-            self.paddleLeft,
-            self.ball
-        )
-
         self.countdownTime = 0
 
     def update (self, events, dt, keys, currState):
@@ -48,7 +42,7 @@ class PlayState:
         if not self.countdownBool:
             self.paddleRight.move(self.sheight, self.ball)
             self.paddleLeft.move(self.sheight, self.ball)
-            self.ball.move()
+            self.ball.move(dt)
             self.countdownBool = self.checkGoal()
             if self.countdownBool:
                 self.resetGame()
@@ -56,7 +50,9 @@ class PlayState:
     def draw (self, screen):
         self.midLine.draw(screen)
         self.boundry.draw(screen)
-        self.allSprites.draw(screen)
+        self.paddleLeft.draw(screen)
+        self.paddleRight.draw(screen)
+        self.ball.draw(screen)
 
         self.scoreLTxt.draw(screen)
         self.scoreRTxt.draw(screen)
