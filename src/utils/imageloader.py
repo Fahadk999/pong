@@ -1,9 +1,8 @@
 import pygame
-from abs_path import absPath
 
 class LoadImage:
     def __init__(self, path, scale, posX, posY):
-        self.path = absPath(path)
+        self.path = path
         self.rawImage = pygame.image.load(self.path).convert_alpha()
         self.image = pygame.transform.scale_by(
             self.rawImage, scale

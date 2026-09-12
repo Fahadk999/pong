@@ -1,5 +1,6 @@
 import pygame
 from src.gamestates.playstate import PlayState
+from src.gamestates.menustate import MenuState
 
 pygame.init()
 
@@ -9,6 +10,12 @@ clock = pygame.time.Clock()
 running = True
 
 # Gamestates
+MENU = "menu"
+PLAY = "play"
+OVER = "over"
+currState = MENU
+
+menustate = MenuState(swidth, sheight)
 playstate = PlayState(swidth, sheight)
 
 running = True
@@ -23,9 +30,15 @@ while running:
             running = False
 
     keys = pygame.key.get_pressed()
-    playstate.update(events, dt, keys, "PLAY")
     screen.fill(pygame.Color("#121314"))
-    playstate.draw(screen)
+
+    if currState == MENU:
+        menustate.update(dt)
+        menustate.draw(screen)
+    elif currState == PLAY:
+        playstate.update(events, dt, keys, currState)
+        playstate.draw(screen)
+
 
     pygame.display.flip()
 
