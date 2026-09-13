@@ -2,10 +2,10 @@ import pygame
 # from abs_path import absPath
 
 class Text:
-    def __init__(self, text, posX, posY, font=None, size=48, color=pygame.Color("white")):
+    def __init__(self, text, posX, posY, font=None, size=48, color="white"):
         self.posX = posX
         self.posY = posY
-        self.color = color
+        self.color = pygame.Color(color)
         self.text = str(text)
         
         self.font = pygame.font.Font(font, size)
@@ -23,13 +23,17 @@ class Text:
         self.glow = True
 
     def updateText (self, text):
-        self.surface = self.font.render(str(text), True, self.color)
-        self.rect = self.surface.get_rect(center=(self.posX, self.posY))
+        self.text = str(text)
+        self.reRender()
         self.adjust()
 
-    def updateTxt (self, text):
-        self.surface = self.font.render(str(text), True, self.color)
+    def reRender (self):
+        self.surface = self.font.render(self.text, True, self.color)
         self.rect = self.surface.get_rect(center=(self.posX, self.posY))
+
+    def updateTxt (self, text):
+        self.text = str(text)
+        self.reRender()
 
     def updatePox (self, newX=0, newY=0):
         self.rect = self.surface.get_rect(center=(newX, newY))

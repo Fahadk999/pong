@@ -1,6 +1,7 @@
 import pygame
 from src.gamestates.playstate import PlayState
 from src.gamestates.menustate import MenuState
+from src.gamestates.overstate import OverState
 
 pygame.init()
 
@@ -17,6 +18,7 @@ currState = MENU
 
 menustate = MenuState(swidth, sheight)
 playstate = PlayState(swidth, sheight)
+overstate = OverState(swidth, sheight)
 
 running = True
 while running:
@@ -36,9 +38,15 @@ while running:
         currState = menustate.update(dt, events, currState)
         menustate.draw(screen)
     elif currState == PLAY:
-        currState = playstate.update(events, dt, keys, currState)
+        nextState = playstate.update(events, dt, keys, currState)
+        if nextState == "over":
+            overstate.setWinnerId(playstate.getWinner())
+        currState = nextState
         playstate.draw(screen)
-
+    elif currState == OVER:
+        overstate.update(dt)
+        playstate.draw(screen)
+        overstate.draw(screen)
 
     pygame.display.flip()
 
