@@ -20,7 +20,8 @@ class PlayState:
 
         self.scoreLeft = 0
         self.scoreRight = 0
-        self.roundTime = 240
+        self.roundTime = 5
+        self.roundOver = False
         self.scoreLTxt = Text(f"{self.scoreLeft}", 0, 0, font, 40)
         self.scoreRTxt = Text(f"{self.scoreRight}", 0, 0, font, 40)
         self.scoreLTxt.rect.topleft = (7,0)
@@ -51,7 +52,12 @@ class PlayState:
             self.roundTime -= dt
             self.roundTimeTxt.updateTxt(f"{int(self.roundTime)}")
             if self.roundTime <= 0:
-                currState = "menu"
+                self.roundOver = True
+            if self.roundOver:
+                if self.scoreLeft != self.scoreRight: 
+                    currState = "menu"
+                else:
+                    self.roundTime = 240
         return currState
         
     def draw (self, screen):
@@ -68,6 +74,8 @@ class PlayState:
         self.roundTimeTxt.draw(screen)
 
     def resetGame (self):
+        self.roundTime = 120
+        self.roundOver = False
         self.ball.resetBall()
         self.paddleRight.hits = 0
         self.paddleLeft.hits = 0
@@ -89,3 +97,6 @@ class PlayState:
             self.ball.direction = 0
             return True
         return False
+    
+    def getWinner (self):
+        return None
