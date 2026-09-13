@@ -8,7 +8,7 @@ class Ball (pygame.sprite.Sprite):
         super().__init__()
         self.color = pygame.Color("white")
         self.radius = 10
-        self.baseSpeed = 6
+        self.baseSpeed = 8
         self.speed = self.baseSpeed
         self.swidth = swidth
         self.sheight = sheight
@@ -38,6 +38,8 @@ class Ball (pygame.sprite.Sprite):
         self.floatX = self.swidth/2
         self.floatY = self.sheight/2
         self.rect = self.image.get_rect(center=(int(self.floatX), int(self.floatY)))
+        self.moveX = (math.cos(self.angle)*self.speed)
+        self.moveY = (math.sin(self.angle)*self.speed)
 
     def drawSurface (self):
         self.image.fill((0, 0, 0, 0)) 
@@ -67,7 +69,3 @@ class Ball (pygame.sprite.Sprite):
             self.moveY = -abs(self.moveY)
             self.floatY = self.sheight-self.radius
         self.effect.update(dt, self.rect.centerx, self.rect.centery, 180-math.degrees(self.angle), 10, 140, 0.15)
-
-
-    def changeAngle (self, newAngle):
-        self.angle = newAngle

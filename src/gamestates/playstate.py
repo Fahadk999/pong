@@ -20,10 +20,12 @@ class PlayState:
 
         self.scoreLeft = 0
         self.scoreRight = 0
+        self.roundTime = 240
         self.scoreLTxt = Text(f"{self.scoreLeft}", 0, 0, font, 40)
         self.scoreRTxt = Text(f"{self.scoreRight}", 0, 0, font, 40)
         self.scoreLTxt.rect.topleft = (7,0)
         self.scoreRTxt.rect.topright = (swidth-7, 0)
+        self.roundTimeTxt = Text(f"{self.roundTime}", self.midLine.rect.centerx, 25, font, 35)
 
         self.countdownBool = True
         self.countdown = 4
@@ -46,6 +48,11 @@ class PlayState:
             self.countdownBool = self.checkGoal()
             if self.countdownBool:
                 self.resetGame()
+            self.roundTime -= dt
+            self.roundTimeTxt.updateTxt(f"{int(self.roundTime)}")
+            if self.roundTime <= 0:
+                currState = "menu"
+        return currState
         
     def draw (self, screen):
         self.midLine.draw(screen)
@@ -58,6 +65,7 @@ class PlayState:
         self.scoreRTxt.draw(screen)
         if self.countdownBool:
             self.countdownTxt.draw(screen)
+        self.roundTimeTxt.draw(screen)
 
     def resetGame (self):
         self.ball.resetBall()

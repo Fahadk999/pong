@@ -36,7 +36,7 @@ while running:
         currState = menustate.update(dt, events, currState)
         menustate.draw(screen)
     elif currState == PLAY:
-        playstate.update(events, dt, keys, currState)
+        currState = playstate.update(events, dt, keys, currState)
         playstate.draw(screen)
 
 
