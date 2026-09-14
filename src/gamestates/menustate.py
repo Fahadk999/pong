@@ -14,12 +14,13 @@ class MenuState:
         self.titleImg.draw(screen)
         self.startBtn.draw(screen)
 
-    def update (self, dt, events, currState):
+    def update (self, dt, events, currState, playstate):
         self.titleImg.idleAnimationY(dt, 2, 0.075)
         self.startBtn.hover(pygame.mouse.get_pos())
         for e in events:
             if e.type == pygame.MOUSEBUTTONDOWN and e.button == 1:
                 if self.startBtn.isHovered:
+                    playstate.fullReset()
                     currState = "play"
                 
         return currState

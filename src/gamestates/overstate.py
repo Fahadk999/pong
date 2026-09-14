@@ -1,3 +1,4 @@
+import pygame
 from src.utils.text import Text
 from src.utils.imageloader import LoadImage
 
@@ -18,8 +19,12 @@ class OverState:
         self.timeupTxt.draw(screen)
         self.winnerTxt.draw(screen)
 
-    def update (self, dt):
+    def update (self, dt, events, currState):
         self.timeupTxt.idleAnimationY(dt, 2, 0.075)
+        for e in events:
+            if e.type == pygame.KEYDOWN and e.key == pygame.K_m:
+                currState = "menu" 
+        return currState
 
     def setWinnerId(self, winnerId:int)->int:
         if winnerId == 0:

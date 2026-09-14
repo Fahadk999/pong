@@ -35,7 +35,7 @@ while running:
     screen.fill(pygame.Color("#121314"))
 
     if currState == MENU:
-        currState = menustate.update(dt, events, currState)
+        currState = menustate.update(dt, events, currState, playstate)
         menustate.draw(screen)
     elif currState == PLAY:
         nextState = playstate.update(events, dt, keys, currState)
@@ -44,7 +44,7 @@ while running:
         currState = nextState
         playstate.draw(screen)
     elif currState == OVER:
-        overstate.update(dt)
+        currState = overstate.update(dt, events, currState)
         playstate.draw(screen)
         overstate.draw(screen)
 

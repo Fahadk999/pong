@@ -17,10 +17,11 @@ class PlayState:
         self.midLine = MidLine(swidth, sheight)
         self.ball = Ball(swidth, sheight)
         self.boundry = Boundry(swidth, sheight)
+        self.roundLen = 5
 
         self.scoreLeft = 0
         self.scoreRight = 0
-        self.roundTime = 5
+        self.roundTime = self.roundLen
         self.extraTime = 0
         self.roundOver = False
         self.scoreLTxt = Text(f"{self.scoreLeft}", 0, 0, font, 40)
@@ -104,3 +105,16 @@ class PlayState:
         elif self.scoreLeft < self.scoreRight:
             return 1
         return -1
+    
+    def fullReset (self):
+        self.resetGame()
+        self.scoreLeft = 0
+        self.scoreRight = 0
+        self.roundTime = self.roundLen
+        self.countdownBool = True
+        self.roundOver = False
+        self.extraTime = 0
+        self.scoreRTxt.updateText(f"{self.scoreRight}")
+        self.scoreRTxt.rect.topright = (self.swidth-7, 0)
+        self.scoreLTxt.updateText(f"{self.scoreLeft}")
+        self.scoreLTxt.rect.topleft = (7,0)
