@@ -100,11 +100,10 @@ class PlayState:
         return False
     
     def getWinner (self)->int:
+        if self.scoreLeft < self.scoreRight:
+            return 1
         if self.scoreLeft > self.scoreRight:
             return 0
-        elif self.scoreLeft < self.scoreRight:
-            return 1
-        return -1
     
     def fullReset (self):
         self.resetGame()

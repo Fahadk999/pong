@@ -31,7 +31,7 @@ class OverState:
             self.winnerTxt.text = "Red is the winner"
             self.winnerTxt.color = self.red
             self.winnerTxt.reRender()
-        elif self.winnerId == 1:
+        elif winnerId == 1:
             self.winnerTxt.text = "Blue is the winner"
             self.winnerTxt.color = self.blue
             self.winnerTxt.reRender()
